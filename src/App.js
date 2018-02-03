@@ -1,53 +1,47 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { connect } from 'react-redux';
-import { types } from './redux';
+import {connect} from 'react-redux';
+import {types} from './redux';
+import { minutesToFormattedTime } from './utils';
+import moment from 'moment';
 
 import logo from './logo.svg';
 import './App.css';
 
+const ft = 'mm:ss.SSS';
+
 class App extends Component {
-  render() {
-      const {
-          request, requestTextUpdated, typingStarted, typingStopped,
-          quote, appState, reqText, spellingErrors, correctedQuote, typing,
-      } = this.props;
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" style={
-              appState === 'loading' ?
-              {animationDuration: '1s', animationDirection: 'reverse'} :
-              {}} />
-          <h1 className="App-title">Welcome to React sagas!</h1>
-        </header>
-        <p className="App-intro">
-          {quote.length > 0 ? quote : `We're ready for Yoda senpai to speak`}
-        </p>
-        <div>
-        <input type="text" value={reqText} onChange={(e) => { requestTextUpdated(e.target.value); }}/>
-        {typing ? <img src={logo} className="App-logo" alt="logo" style={
-            typing ?
-            {animationDuration: '1s', animationDirection: 'reverse'} :
-            {}} /> : null}
-        <button onClick={() => request({reqText})}>Request him now!</button>
-        </div>
-        {spellingErrors > 0 ? <div>
-            Did you mean: {correctedQuote}
-        </div> : false}
-      </div>
-    );
-  }
+	render() {
+		const {
+            time, convertedTime, pomoTime, restTime, pomoLeft, restLeft,
+            start, stop, pause,
+        } = this.props;
+		return (<div className="App">
+			<header className="App-header">
+				<img src={logo} className="App-logo" alt="logo"/>
+				<h1 className="App-title">Pomodori</h1>
+			</header>
+			<p className="App-intro">
+                Pomo: {moment(pomoLeft).format(ft)}
+            </p>
+			<p className="App-intro">
+                Rest: {moment((restTime + pomoTime)*1e3  - time).format(ft)}
+            </p>
+			<p className="App-intro">
+                {convertedTime || 'Nope!'}
+            </p>
+			<div>
+				<button onClick={() => start({pomoTime, restTime})}>Start</button>
+				<button onClick={() => pause()}>Pause</button>
+			</div>
+		</div>);
+	}
 }
 
-export default connect(
-    state => ({...state}),
-    (dispatch) => ({
-        request({reqText, ...params}) {
-            dispatch({type: types.request, text: reqText, ...params})
-        },
-        requestTextUpdated(text) { dispatch({type: types.textUpdate, text})},
-        typingStarted: () => dispatch({type: types.typingStarted}),
-        typingStopped: () => dispatch({type: types.typingStopped}),
-    })
-)(App);
+export default connect(state => ({
+	...state
+}), (dispatch) => ({
+	start: (state) => dispatch({type: types.start, ...state}),
+	stop: () => dispatch({type: types.stop}),
+	pause: () => dispatch({type: types.pause}),
+}))(App);
