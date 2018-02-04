@@ -1,7 +1,6 @@
-import { loadLocalStorage } from '../utils'
 const pomoTime = 6;
 const restTime = 1;
-const initialState = loadLocalStorage({
+export const initialState = {
     ticking: false,
     paused: false,
     time: 0,
@@ -9,7 +8,7 @@ const initialState = loadLocalStorage({
     restTime,
     pomoLeft: pomoTime * 1e3,
     restLeft: restTime * 1e3,
-})
+}
 
 export const types = {
     'start': 'StartTimer@Front',

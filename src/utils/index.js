@@ -40,7 +40,7 @@ export const loadLocalStorage = (defaults) => {
 export const saveLocalStorage = (settings) => {
     try {
         let stringifiedState = JSON.stringify(settings);
-        window.localStorage.setItem(stringifiedState);
+        window.localStorage.setItem(lsDomain, stringifiedState);
     } catch (e) {
         console.warn(e);
         window.localStorage.removeItem(lsDomain);

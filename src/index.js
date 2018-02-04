@@ -8,7 +8,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 
-import reducers from './redux'
+import {reducers, defaultedState} from './redux'
 import mySagas from './saga'
 
 // create the saga middleware
@@ -17,6 +17,7 @@ const sagaMiddleware = createSagaMiddleware()
 let composer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducers,
+  defaultedState,
   composer(applyMiddleware(
       sagaMiddleware
   )),

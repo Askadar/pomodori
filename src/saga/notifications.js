@@ -7,7 +7,7 @@ function* permissionGranter(message = `You're set up!`) {
     // console.log(message);
     try {
         if (window.Notification.permission === 'granted')
-            yield new Notification(message);
+            yield true;
         else if(window.Notification.permission !== "denied")
             yield window.Notification.requestPermission().then(perm => {
                 if (perm === 'granted')
@@ -35,9 +35,10 @@ function* notificationWatcher() {
 }
 
 function* rootSaga() {
-    yield takeLatest(types.issueNotification, function*() {
-        console.log('ass');
-        yield put({type: types.notificationIssued, message: `Testing`})
+    yield takeLatest(types.issueNotification, function*(action) {
+        yield put({
+            type: types.notificationIssued, 
+            message: action.message || 'Testing'})
     })
     yield fork(notificationWatcher);
 }
