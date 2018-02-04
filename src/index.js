@@ -8,22 +8,22 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 
-import reducer from './redux/'
-import mySaga from './saga/'
+import reducers from './redux'
+import mySagas from './saga'
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
 // mount it on the Store
 let composer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-  reducer,
+  reducers,
   composer(applyMiddleware(
       sagaMiddleware
   )),
 )
 
 // then run the saga
-sagaMiddleware.run(mySaga)
+sagaMiddleware.run(mySagas)
 
 // render the application
 

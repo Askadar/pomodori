@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
-import {connect} from 'react-redux';
-import {types} from './redux';
-import { minutesToFormattedTime } from './utils';
+import { connect } from 'react-redux';
+import { types } from './redux/timer';
+import { types as nTypes } from './redux/notifications';
 import moment from 'moment';
 
 import appIcon from './appIcon.svg';
@@ -22,9 +22,14 @@ class App extends Component {
 	}
 	render() {
 		const {
-            time, convertedTime, pomoTime, restTime, pomoLeft, restLeft,
-			paused, ticking,
-            start, stop, pause, resume, updateTime,
+			timer: {
+	            time, /*convertedTime,*/ pomoTime, restTime, pomoLeft, restLeft,
+				paused, ticking,
+			},
+
+			start, stop, pause, resume, updateTime,
+			
+			issueNotification,
         } = this.props;
 		const { editing } = this.state;
 		return (<div className="App">
@@ -42,9 +47,13 @@ class App extends Component {
 					show={pomoLeft}
 					handler={(evt) => updateTime({key: 'pomoTime', value: +evt.target.value})}/>
             </div>
-			<p className="App-intro">
-                Rest: {moment(restLeft).format(ft)}
-            </p>
+			<div className="App-intro">
+                Rest: <AdjustableInput
+					focused={editing}
+					value={restTime}
+					show={restLeft}
+					handler={(evt) => updateTime({key: 'restTime', value: +evt.target.value})}/>
+            </div>
 			<p className="App-intro">
                 {moment(time).format(ft) || 'Nope!'}
             </p>
@@ -54,6 +63,9 @@ class App extends Component {
 				</button>
 				<button onClick={() => paused ? resume() : pause()}>
 					{paused ? 'Resume' : 'Pause'}
+				</button>
+				<button onClick={() => issueNotification()}>
+					Notify yourself
 				</button>
 			</div>
 		</div>);
@@ -68,4 +80,6 @@ export default connect(state => ({
 	pause: () => dispatch({type: types.pause}),
 	resume: () => dispatch({type: types.resume}),
 	updateTime: (settings) => dispatch({type: types.updateSettings, ...settings}),
+
+	issueNotification: () => dispatch({type: nTypes.issueNotification})
 }))(App);
