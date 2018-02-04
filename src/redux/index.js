@@ -1,37 +1,55 @@
-import { toFormattedTime } from '../utils'
+import { loadLocalStorage } from '../utils'
 const pomoTime = 6;
 const restTime = 1;
-const initialState = {
+const initialState = loadLocalStorage({
     ticking: false,
     paused: false,
     time: 0,
     pomoTime,
     restTime,
     pomoLeft: pomoTime * 1e3,
-    restLeft: restTime,
-}
+    restLeft: restTime * 1e3,
+})
 
 export const types = {
-    'start': 'TimerStarted@Front',
-    'stop': 'TimerStopped@Front',
-    'pause': 'TimerPaused@Front',
+    'start': 'StartTimer@Front',
+    'stop': 'StopTimer@Front',
+    'pause': 'PauseTimer@Front',
+    'resume': 'ResumeTimer@Front',
+    'updateSettings': 'UpdateSettings@Front',
+    'settingsUpdated': 'SettingsUpdated@Saga',
+    'stopped': 'TimerStopped@Saga',
     'timeUpdated': 'TimerUpdated@Saga',
 }
-const { start, pause, timeUpdated } = types;
+const { start, pause, timeUpdated, updateSettings } = types;
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case timeUpdated:
-        const { pomoTime, restTime } = state;
-        let pomoLeft = Math.max(pomoTime*1e3  - action.elapsed, 0);
-        let restLeft = pomoLeft === 0 ? (restLeft + pomoLeft) * 1e3 - action.elapsed : restLeft * 1e3;
-        return {
-            ...state,
-            time: action.elapsed,
-            convertedTime: toFormattedTime(action.elapsed),
-            pomoLeft, restLeft,
-        };
+            const { pomoTime, restTime } = state;
+            let time = Math.min(action.elapsed, (pomoTime + restTime) * 1e3);
+            let pomoLeft = Math.max(pomoTime*1e3  - time, 0);
+            let restLeft = pomoLeft === 0 ? (restTime + pomoTime) * 1e3 - time : restTime * 1e3;
+            return {
+                ...state,
+                time,
+                // convertedTime: toFormattedTime(action.elapsed),
+                pomoLeft, restLeft,
+            };
+        case types.settingsUpdated:
+            return {
+                ...state,
+                [action.key]: action.value
+            }
+        case types.start:
+        return {...state, ticking: true, paused: false};
+        case types.stopped:
+        return {...state, ticking: false, paused: false};
+        case types.pause:
+        return {...state, paused: state.ticking ? true : false};
+        case types.resume:
+        return {...state, paused: false};
         default:
-        return state
+            return state
     }
 }

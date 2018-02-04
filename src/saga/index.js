@@ -1,4 +1,4 @@
-import {call, all, put, takeLatest, take, race, fork} from 'redux-saga/effects'
+import {call, all, put, takeEvery, takeLatest, take, race, fork} from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import axios from 'axios'
 import { types } from '../redux';
@@ -9,10 +9,10 @@ axios.defaults.headers['X-Mashape-Key'] = 'DPHo0ldO0cmshraPZ5DwFk71cDKxp1Zoeg3js
 // unnecessary async and await, generator (saga?) handle promises for us
 
 function* stopTimer() {
-	console.log('stopping');
+	// console.log('stopping');
 	yield delay(5);
-	console.log('delayed');
-	yield put({type: stop, finished: true});
+	yield put({type: timeUpdated, elapsed: 0});
+	yield put({type: types.stopped, finished: true});
 }
 
 function* ticking(action) {
@@ -21,13 +21,12 @@ function* ticking(action) {
 		while (true){
 			const { started } = yield race({
 				started: take(start),
-				unpaused: take(pause),
+				unpaused: take(types.resume),
 			});
 			if (started) {
 				pomoTime = started.pomoTime;
 				restTime = started.restTime;
 				timeElapsed = 0;
-				console.log(started);
 			}
 			while (true) {
 				let timePrev = Date.now();
@@ -35,13 +34,12 @@ function* ticking(action) {
 					ticked: call(delay, Math.round(Math.random() * 8) + 8),
 					cancelled: race({
 						paused: take(pause),
-						stopped: take([stop, start])
+						stopped: take(types.stopped)
 					}),
 				});
 				if (cancelled) {
-					console.log(cancelled);
-					if (cancelled.stopped)
-						yield put({ type: timeUpdated, elapsed: timeElapsed = 0 });
+					if (cancelled.stopped && !cancelled.stopped.finished)
+						yield fork(stopTimer);
 					break;
 				}
 				timeElapsed += Date.now() - timePrev;
@@ -57,7 +55,13 @@ function* ticking(action) {
 
 
 function* rootSaga() {
-	yield ticking();
+	yield takeLatest(stop, stopTimer);
+	yield takeLatest(types.updateSettings, function*(action) {
+		const {key, value} = action
+		yield put({type: types.settingsUpdated, key, value});
+		yield call(stopTimer);
+	});
+	yield fork(ticking);
 	// yield takeLatest(textUpdate, typing)
 	// yield takeLatest(textUpdate, spellcheckQuote); //Futura references
 }

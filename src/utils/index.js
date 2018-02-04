@@ -9,3 +9,40 @@ export const toFormattedTime = (timems) => {
 export const minutesToFormattedTime = (minutes) => {
     return toFormattedTime(minutes * 1e3);
 }
+
+const lsDomain = 'POMO_SETTINGS'
+
+export const loadLocalStorage = (defaults) => {
+    const sToMs = time => time*1e3;
+    const transferMap = {
+        'pomoTime': {
+            key: 'pomoLeft',
+            value: sToMs,
+        },
+        'restTime': {
+            key: 'restLeft',
+            value: sToMs,
+        },
+    }
+    try {
+        let settings = JSON.parse(window.localStorage.getItem(lsDomain))
+        for (let key in settings){
+            if (transferMap[key])
+                settings[transferMap[key].key] = transferMap[key].value(settings[key]);
+        }
+        return { ...defaults, ...settings };
+    } catch (e) {
+        console.warn(e);
+        return defaults
+    }
+}
+
+export const saveLocalStorage = (settings) => {
+    try {
+        let stringifiedState = JSON.stringify(settings);
+        window.localStorage.setItem(stringifiedState);
+    } catch (e) {
+        console.warn(e);
+        window.localStorage.removeItem(lsDomain);
+    }
+}
