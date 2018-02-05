@@ -20,7 +20,9 @@ const AdjustableInput = ({value, handler, show, focused, children}) =>
 
 const TimeView = connect(state => ({time: state.timer.time}))(({time}) =>
 <div className="app-row">
-	{moment(time).format(ft) || 'Nope!'}
+	<div className="time">
+		<span className="time-text">{moment(time).format(ft) || 'Nope!'}</span>
+	</div>
 </div>)
 
 const Clocks = connect(
@@ -56,11 +58,8 @@ class App extends Component {
 	render() {
 		const {
 			timer: {
-	            // time,
 				pomoTime,
 				restTime,
-				// pomoLeft,
-				// restLeft,
 				paused,
 				ticking,
 			},
@@ -68,7 +67,6 @@ class App extends Component {
 				notificationsEnabled
 			},
 			start, stop, pause, resume,
-			//  updateTime,
 
 			askNotificationPersmission,
         } = this.props;
@@ -77,6 +75,7 @@ class App extends Component {
 			<link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500" rel="stylesheet"/>
 			<header>
 				<h1>Pomodori - your productivity timer</h1>
+				<h4 className="right">InDev edition!</h4>
 			</header>
             <TimeView/>
 			<Clocks editing={editing} toggleEditing={() => this.setState({editing: !editing})}/>
@@ -90,7 +89,7 @@ class App extends Component {
 			</div>
 			{ notificationsEnabled ? null
 				: <div className="app-row">
-				<button onClick={() => askNotificationPersmission()}>
+				<button disabled onClick={() => askNotificationPersmission()}>
 					Enable notifications
 				</button>
 			</div>}

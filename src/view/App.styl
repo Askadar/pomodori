@@ -1,25 +1,41 @@
 satura = #ab00ff
+saturaBleaked = #e0b2f7
+mesame = #61aac2
+mesameBleaked = #cfe5ed
+fulla = #009ad6
+
+@media screen and (max-width: 768px)
+	html
+		font-size 20px
 
 .app
 	header
 		background white
 		color satura
-		padding 32px
+		padding 24px
 		font-family 'Montserrat', sans-serif
 		text-align center
 		h1
+			font-size 1.6rem
+		h1
+		h4
 			margin 0
 			font-weight 400
+		.right
+			text-align right
 	button
 		border none
 		background none
 		outline none
 		padding 8px
 		margin 4px
+		font-size 0.9rem
 		min-width 64px
 		font-weight 500
 		font-family 'Montserrat', sans-serif
 		border 1px solid satura
+		&:disabled
+			border-color saturaBleaked
 	.app-row
 		min-width 320px
 		max-width 480px
@@ -30,6 +46,18 @@ satura = #ab00ff
 		margin 8px 16px
 		input
 			max-width 6rem
+	.time
+		circle = 96px
+		box-sizing content-box
+		height circle
+		width circle
+		margin  8px auto
+		position relative
+		border-radius 50%
+		border 2px solid satura
+		span.time-text
+			margin-top 40px
+			display inline-block
 
 .App {
   text-align: center;
