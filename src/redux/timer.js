@@ -1,5 +1,5 @@
-const pomoTime = 6;
-const restTime = 1;
+const pomoTime = 1500;
+const restTime = 300;
 export const initialState = {
     ticking: false,
     paused: false,

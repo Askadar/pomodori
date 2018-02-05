@@ -38,8 +38,19 @@ export const loadLocalStorage = (defaults) => {
 }
 
 export const saveLocalStorage = (settings) => {
+    const blacklist = [
+        'time', 'ticking', 'paused'
+    ]
+    let cleanedSettings = {};
+    for (let reducer in settings){
+        cleanedSettings[reducer] = {};
+        for (let key in settings[reducer]){
+            if (!(blacklist.includes(key)))
+                cleanedSettings[reducer][key] = settings[reducer][key];
+        }
+    }
     try {
-        let stringifiedState = JSON.stringify(settings);
+        let stringifiedState = JSON.stringify(cleanedSettings);
         window.localStorage.setItem(lsDomain, stringifiedState);
     } catch (e) {
         console.warn(e);

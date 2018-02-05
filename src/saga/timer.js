@@ -32,7 +32,7 @@ function* ticking(action) {
 			while (true) {
 				let timePrev = Date.now();
 				const { cancelled } = yield race({
-					ticked: call(delay, Math.round(Math.random() * 8) + 8),
+					ticked: call(delay, Math.round(Math.random() * 8) + 16),
 					cancelled: race({
 						paused: take(pause),
 						stopped: take(types.stopped)

@@ -10,7 +10,7 @@ function* autoSave() {
     while(true){
         yield race({
             action: take([types.settingsUpdated]),
-            timeout: call(delay, 60*5*1000),
+            timeout: call(delay, 5*1000),
         })
         yield delay(25); //allow redux to push new state
         const state = yield select(state => state);
