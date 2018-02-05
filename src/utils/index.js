@@ -26,11 +26,15 @@ export const loadLocalStorage = (defaults) => {
     }
     try {
         let settings = JSON.parse(window.localStorage.getItem(lsDomain))
-        for (let key in settings){
-            if (transferMap[key])
-                settings[transferMap[key].key] = transferMap[key].value(settings[key]);
+        let defaultedSettings = {};
+        for (let reducer in defaults) {
+            for (let key in settings[reducer]){
+                if (transferMap[key])
+                    settings[reducer][transferMap[key].key] = transferMap[key].value(settings[reducer][key]);
+            }
+            defaultedSettings = {...defaults[reducer], ...settings[reducer]}
         }
-        return { ...defaults, ...settings };
+        return defaultedSettings;
     } catch (e) {
         console.warn(e);
         return defaults
