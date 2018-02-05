@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 
 import { connect } from 'react-redux';
-import { types } from './redux/timer';
-import { types as nTypes } from './redux/notifications';
+import { types } from '../redux/timer';
+import { types as nTypes } from '../redux/notifications';
 import moment from 'moment';
 
-import appIcon from './appIcon.svg';
-import './App.css';
+// import appIcon from './appIcon.svg';
+// import './App.css';
+import './App.styl';
 
 const ft = 'mm:ss.SSS';
 
@@ -28,14 +29,13 @@ class App extends Component {
 			},
 
 			start, stop, pause, resume, updateTime,
-			
+
 			issueNotification,
         } = this.props;
 		const { editing } = this.state;
-		return (<div className="App">
-			<header className="App-header">
-				<img src={appIcon} className="App-appIcon" alt="appIcon"/>
-				<h1 className="App-title">Pomodori</h1>
+		return (<div className="app">
+			<header>
+				<h1>Pomodori - your productivity timer</h1>
 			</header>
 			<div>
 				<button onClick={() => this.setState({editing: !editing})}>Edit clocks</button>
