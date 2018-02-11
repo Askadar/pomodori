@@ -75,7 +75,7 @@ class App extends Component {
 			<link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500" rel="stylesheet"/>
 			<header>
 				<h1>Pomodori - your productivity timer</h1>
-				<h4 className="right">InDev edition!</h4>
+				<h4 className="right">InDev edition! V:  {process.env.REACT_APP_VERSION}</h4>
 			</header>
             <TimeView/>
 			<Clocks editing={editing} toggleEditing={() => this.setState({editing: !editing})}/>
