@@ -46,19 +46,19 @@ function* ticking(action) {
 				timeElapsed += Date.now() - timePrev;
 				if (!notifications.firstPomo && timeElapsed > pomoTime  * 5e2){
 					notifications.firstPomo = true;
-					yield put({type: notify.notificationIssued, message: 'Half way through your pomo!'})
+					yield put({type: notify.issueNotification, message: 'Half way through your pomo!'})
 				}
 				if (!notifications.tfTillPomo && timeElapsed > (pomoTime - 25)  * 1e3){
 					notifications.tfTillPomo = true;
-					yield put({type: notify.notificationIssued, message: '25 second to the end'})
+					yield put({type: notify.issueNotification, message: '25 second to the end'})
 				}
 				if (!notifications.lastPomo && timeElapsed >= pomoTime * 1e3){
 					notifications.lastPomo = true;
-					yield put({type: notify.notificationIssued, message: 'You\'ve did it!'})
+					yield put({type: notify.issueNotification, message: 'You\'ve did it!'})
 				}
 				if (!notifications.firstRest && timeElapsed > (pomoTime + restTime - 25) * 1e3){
 					notifications.firstRest = true;
-					yield put({type: notify.notificationIssued, message: 'Rest almost done, get ready!'});
+					yield put({type: notify.issueNotification, message: 'Rest almost done, get ready!'});
 				}
 				if (timeElapsed > (pomoTime + restTime) * 1000)
 					yield fork(stopTimer);

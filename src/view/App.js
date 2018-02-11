@@ -89,7 +89,7 @@ class App extends Component {
 			</div>
 			{ notificationsEnabled ? null
 				: <div className="app-row">
-				<button disabled onClick={() => askNotificationPersmission()}>
+				<button onClick={() => askNotificationPersmission()}>
 					Enable notifications
 				</button>
 			</div>}
@@ -104,5 +104,5 @@ export default connect(state => ({
 	stop: () => dispatch({type: types.stop}),
 	pause: () => dispatch({type: types.pause}),
 	resume: () => dispatch({type: types.resume}),
-	askNotificationPersmission: () => dispatch({type: nTypes.askNotificationPersmission})
+	askNotificationPersmission: () => dispatch({type: nTypes.requestPermission})
 }))(App);
