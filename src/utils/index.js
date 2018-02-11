@@ -32,7 +32,7 @@ export const loadLocalStorage = (defaults) => {
                 if (transferMap[key])
                     settings[reducer][transferMap[key].key] = transferMap[key].value(settings[reducer][key]);
             }
-            defaultedSettings = {...defaults[reducer], ...settings[reducer]}
+            defaultedSettings[reducer] = {...defaults[reducer], ...settings[reducer]}
         }
         return defaultedSettings;
     } catch (e) {
