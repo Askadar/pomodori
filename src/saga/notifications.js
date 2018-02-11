@@ -34,7 +34,8 @@ function* notificationWatcher() {
             const defaults = {
                 requireInteraction: false,
             };
-            new window.Notification(message, {...defaults, ...rest});
+            let notification = new window.Notification(message, {...defaults, ...rest});
+            notification.onclick = (e) => {e.preventDefault(); e.target.close()};
         }
     } catch (e) {
         console.warn(e);
