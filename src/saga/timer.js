@@ -75,7 +75,11 @@ function* rootSaga() {
 	yield takeLatest(stop, stopTimer);
 	yield takeLatest(types.updateSettings, function*(action) {
 		const {key, value} = action
-		yield put({type: types.settingsUpdated, key, value});
+		const times = ['pomoTime', 'restTime'];
+		if (times.includes(key))
+			yield put({type: types.settingsUpdated, key, value: Math.max(+value, 0)});
+		else
+			yield put({type: types.settingsUpdated, key, value});
 		yield call(stopTimer);
 	});
 	yield fork(ticking);
