@@ -87,12 +87,11 @@ class App extends Component {
 					{paused ? 'Resume' : 'Pause'}
 				</button>
 			</div>
-			{ notificationsEnabled ? null
-				: <div className="app-row">
-				<button onClick={() => askNotificationPersmission()}>
-					Enable notifications
+			<div className="app-row">
+				<button disabled={notificationsEnabled} onClick={() => askNotificationPersmission()}>
+					{notificationsEnabled ? 'All good! You may recieve notifications' : 'Enable notifications' }
 				</button>
-			</div>}
+			</div>
 		</div>);
 	}
 }

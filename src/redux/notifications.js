@@ -1,5 +1,5 @@
 export const initialState = {
-
+    notificationsEnabled: window.Notification && window.Notification.permission === 'granted'
 }
 
 export const types = {
@@ -10,5 +10,9 @@ export const types = {
 }
 
 export default (state = initialState, action) => {
-    return state;
+    switch(action.type){
+        case types.permissionGranted:
+        return {...state, notificationsEnabled: true};
+        default: return state;
+    }
 }
