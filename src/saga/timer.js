@@ -33,16 +33,10 @@ function* ticking(action) {
 				let timePrev = Date.now();
 				const { cancelled } = yield race({
 					ticked: call(delay, Math.round(Math.random() * 8) + 16),
-					cancelled: race({
-						paused: take(pause),
-						stopped: take(types.stopped)
-					}),
+					cancelled: take([pause, types.stopped]),
 				});
-				if (cancelled) {
-					if (cancelled.stopped && !cancelled.stopped.finished)
-						yield fork(stopTimer);
+				if (cancelled)
 					break;
-				}
 				timeElapsed += Date.now() - timePrev;
 				if (!notifications.firstPomo && timeElapsed > pomoTime  * 5e2){
 					notifications.firstPomo = true;
