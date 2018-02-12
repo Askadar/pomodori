@@ -5,10 +5,6 @@ import { types } from '../redux/timer';
 import { types as notify } from '../redux/notifications';
 const { start, stop, pause, timeUpdated } = types;
 
-
-// axios.defaults.headers['X-Mashape-Key'] = 'DPHo0ldO0cmshraPZ5DwFk71cDKxp1Zoeg3jsnpWGpchLsCPFY';
-// unnecessary async and await, generator (saga?) handle promises for us
-
 function* stopTimer() {
 	// console.log('stopping');
 	yield delay(5);

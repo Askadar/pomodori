@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 import { types } from 'redux/timer';
 import { types as nTypes } from 'redux/notifications';
-import moment from 'moment';
+import Clock from 'components/Clock';
 
 // import appIcon from './appIcon.svg';
 // import './App.css';
@@ -20,9 +22,9 @@ const AdjustableInput = ({value, handler, show, focused, children}) =>
 
 const TimeView = connect(state => ({time: state.timer.time}))(({time}) =>
 <div className="app-row">
-	<div className="time">
+	<Clock minutes={time/6e4} seconds={time/1e3} ms={time}>
 		<span className="time-text">{moment(time).format(ft) || 'Nope!'}</span>
-	</div>
+	</Clock>
 </div>)
 
 const Clocks = connect(
