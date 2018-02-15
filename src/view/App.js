@@ -54,9 +54,6 @@ const Clocks = connect(
 </div>)
 
 class App extends Component {
-	state = {
-		editing: false
-	}
 	render() {
 		const {
 			timer: {
@@ -72,27 +69,13 @@ class App extends Component {
 
 			askNotificationPersmission,
         } = this.props;
-		const { editing } = this.state;
 		return (<div className="app">
 			<link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500" rel="stylesheet"/>
 			<header>
-				<h1>Pomodori - your productivity timer</h1>
+				<h1>Keep on going! Track your goals and don't forget about important stuff.</h1>
 				<h4 className="right">InDev edition! V:  {process.env.REACT_APP_VERSION}</h4>
 			</header>
-            <TimeView/>
-			<Clocks editing={editing} toggleEditing={() => this.setState({editing: !editing})}/>
 			<div className="app-row">
-				<button onClick={() => ticking ? stop() : start({pomoTime, restTime})}>
-					{ticking ? 'Stop' : 'Start'}
-				</button>
-				<button onClick={() => paused ? resume() : pause()}>
-					{paused ? 'Resume' : 'Pause'}
-				</button>
-			</div>
-			<div className="app-row">
-				<button disabled={notificationsEnabled} onClick={() => askNotificationPersmission()}>
-					{notificationsEnabled ? 'All good! You may recieve notifications' : 'Enable notifications' }
-				</button>
 			</div>
 		</div>);
 	}
