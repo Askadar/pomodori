@@ -43,7 +43,8 @@ export const loadLocalStorage = (defaults) => {
 
 export const saveLocalStorage = (settings) => {
     const blacklist = [
-        'time', 'ticking', 'paused', 'notificationsEnabled'
+        'time', 'ticking', 'paused', 'notificationsEnabled',
+        'tasks'
     ]
     let cleanedSettings = {};
     for (let reducer in settings){

@@ -6,7 +6,7 @@ import moment from 'moment';
 import { types } from 'redux/timer';
 import { types as nTypes } from 'redux/notifications';
 import Clock from 'components/Clock';
-
+import TaskList from 'components/TaskList';
 // import appIcon from './appIcon.svg';
 // import './App.css';
 import './App.styl';
@@ -65,6 +65,9 @@ class App extends Component {
 			notifications: {
 				notificationsEnabled
 			},
+			goal: {
+				tasks,
+			},
 			start, stop, pause, resume,
 
 			askNotificationPersmission,
@@ -75,8 +78,7 @@ class App extends Component {
 				<h1>Keep on going! Track your goals and don't forget about important stuff.</h1>
 				<h4 className="right">InDev edition! V:  {process.env.REACT_APP_VERSION}</h4>
 			</header>
-			<div className="app-row">
-			</div>
+			<TaskList/>
 		</div>);
 	}
 }
