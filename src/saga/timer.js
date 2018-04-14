@@ -1,4 +1,4 @@
-import {call, put, takeLatest, take, race, fork} from 'redux-saga/effects'
+import {call, put, takeLatest, take, race, fork, select} from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 // import axios from 'axios'
 import { types } from '../redux/timer';
@@ -25,10 +25,29 @@ function* ticking(action) {
 				unpaused: take(types.resume),
 			});
 			if (started) {
-				pomoTime = started.pomoTime;
-				restTime = started.restTime;
+				const state = yield select(state => ({
+					pomoTime: state.timer.pomoTime,
+					restTime: state.timer.restTime,
+					notificationsSet: state.notifications.userNotifications
+				}));
+				pomoTime = state.pomoTime;
+				restTime = state.restTime;
+				notifications = state.notificationsSet || null;
 				timeElapsed = 0;
 			}
+			yield put({
+				type: notify.registerNotificationsSet,
+				notifications: notifications || [
+					['50% of first', 'Half way through!', { sound: true }],
+					// ['1 min in first', 'One minute in your pomodoro!'],
+					['30 sec till first', 'One minute left in your pomodoro!'],
+					['100% of first', 'Pomodoro finished!!', { sound: true }],
+					['100% of second', 'Get back to work!11!', {
+						sound: true, closeManually: true
+					}],
+				],
+				sets: [pomoTime, restTime]
+			})
 			while (true) {
 				let timePrev = Date.now();
 				const { cancelled } = yield race({
@@ -38,22 +57,7 @@ function* ticking(action) {
 				if (cancelled)
 					break;
 				timeElapsed += Date.now() - timePrev;
-				if (!notifications.firstPomo && timeElapsed > pomoTime  * 5e2){
-					notifications.firstPomo = true;
-					yield put({type: notify.issueNotification, message: 'Half way through your pomo!'})
-				}
-				if (!notifications.tfTillPomo && timeElapsed > (pomoTime - 25)  * 1e3){
-					notifications.tfTillPomo = true;
-					yield put({type: notify.issueNotification, message: '25 second to the end'})
-				}
-				if (!notifications.lastPomo && timeElapsed >= pomoTime * 1e3){
-					notifications.lastPomo = true;
-					yield put({type: notify.issueNotification, message: 'You\'ve did it!'})
-				}
-				if (!notifications.firstRest && timeElapsed > (pomoTime + restTime - 25) * 1e3){
-					notifications.firstRest = true;
-					yield put({type: notify.issueNotification, message: 'Rest almost done, get ready!'});
-				}
+				// yield put({type: notify.issueNotification, message: 'Pomo started!'})
 				if (timeElapsed > (pomoTime + restTime) * 1000)
 					yield fork(stopTimer);
 				yield put({ type: timeUpdated, elapsed: timeElapsed });

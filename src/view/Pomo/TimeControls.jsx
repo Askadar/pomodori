@@ -17,7 +17,7 @@ state => ({ ...state.timer }),
 		start, stop, pause, resume,
 	}) =>
 	<div className="app-row">
-		<button onClick={() => ticking ? stop() : start({pomoTime, restTime})}>
+		<button onClick={() => ticking ? stop() : start()}>
 			{ticking ? 'Stop' : 'Start'}
 		</button>
 		<button onClick={() => paused ? resume() : pause()}>
