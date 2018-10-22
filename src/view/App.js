@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import  { Header, TimeView, Clocks, Notifications, NotificationsEditor, TimeControls } from 'view/Pomo';
+import  { Header, TimeView, Clocks, Notifications, NotificationsEditor, TimeControls, Sessions } from 'view/Pomo';
 // import  { DemoGrid } from 'ZN-Design/SmartGrid';
 
 // import appIcon from './appIcon.svg';
@@ -29,6 +29,7 @@ class App extends Component {
 				/>
 				<TimeControls/>
 				<Notifications/>
+				<Sessions/>
 				<NotificationsEditor/>
 			</div>
 		);

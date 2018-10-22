@@ -43,7 +43,7 @@ function* ticking(action) {
 				timeElapsed += Date.now() - timePrev;
 				// yield put({type: notify.issueNotification, message: 'Pomo started!'})
 				if (timeElapsed > (pomoTime + restTime) * 1000)
-					yield fork(stopTimer);
+					yield fork(stopTimer, timeElapsed);
 				yield put({ type: timeUpdated, elapsed: timeElapsed });
 			}
 		}
