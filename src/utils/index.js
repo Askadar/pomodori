@@ -1,3 +1,5 @@
+import { List } from 'immutable'
+
 export const toFormattedTime = (timems) => {
     let seconds = timems/1000;
     let minutes = seconds/60;
@@ -23,6 +25,14 @@ export const loadLocalStorage = (defaults) => {
             key: 'restLeft',
             value: sToMs,
         },
+		notificationSet: {
+            key: 'notificationSet',
+            value: List,
+		},
+		list: {
+            key: 'list',
+            value: List,
+		}
     }
     try {
         let settings = JSON.parse(window.localStorage.getItem(lsDomain))

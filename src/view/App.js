@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 
-import  { Header, TimeView, Clocks, Notifications, TimeControls } from 'view/Pomo';
+import  { Header, TimeView, Clocks, Notifications, NotificationsEditor, TimeControls } from 'view/Pomo';
+// import  { DemoGrid } from 'ZN-Design/SmartGrid';
 
 // import appIcon from './appIcon.svg';
 // import './App.css';
 import './App.styl';
+import 'media/css/fontello.css';
+
 
 class App extends Component {
 	state = {
@@ -19,13 +22,14 @@ class App extends Component {
 					rel="stylesheet"
 				/>
 				<Header/>
-	            <TimeView/>
+				<TimeView/>
 				<Clocks
 					editing={editing}
 					toggleEditing={() => this.setState({editing: !editing})}
 				/>
 				<TimeControls/>
 				<Notifications/>
+				<NotificationsEditor/>
 			</div>
 		);
 	}

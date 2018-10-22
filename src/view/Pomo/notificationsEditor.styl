@@ -1,0 +1,36 @@
+@import '~view/App'
+
+.app .app-row
+	&.notifications-editor
+		min-width max-content
+		margin-top 8px
+		padding 8px
+		border 1px solid mesame
+		input
+			border none
+			background none
+			// box-shadow none
+			// outline none
+			font-weight bold
+		label
+			display inline-block
+			padding 4px
+			white-space nowrap
+
+	.btn-group
+		display flex
+		height 100%
+	.input-group
+		display flex
+	.zn-btn
+		cursor pointer
+		border 1px solid mesameBleaked
+		padding 2px
+		min-width unset
+		tr 1
+		&:hover
+			border-color saturaBleaked
+		&.zn-btn--primary
+			border-color mesame
+			&:hover
+				border-color satura

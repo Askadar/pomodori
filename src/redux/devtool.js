@@ -11,7 +11,7 @@ const DevTools = createDevTools(
 	toggleVisibilityKey='ctrl-h'
 	changePositionKey='ctrl-q'
 	defaultIsVisible={true}
-	defaultPosition='bottom'
+	defaultPosition='left'
 	fluid
 >
 	<FilterMonitor blacklist={['TimerUpdated@Saga']}>

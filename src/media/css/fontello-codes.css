@@ -1,0 +1,5 @@
+
+.icon-volume-off:before { content: '\e800'; } /* '' */
+.icon-volume-high:before { content: '\e801'; } /* '' */
+.icon-cancel-2:before { content: '\e802'; } /* '' */
+.icon-check:before { content: '\e803'; } /* '' */

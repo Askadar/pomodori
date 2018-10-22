@@ -5,7 +5,7 @@ import notifications, { initialState as notificationsDefaults} from './notificat
 import {loadLocalStorage} from '../utils';
 
 import devtool from './devtool';
-export const DevTool = devtool; 
+export const DevTool = devtool;
 
 export const reducers = combineReducers({
     timer,
@@ -14,5 +14,5 @@ export const reducers = combineReducers({
 
 export const defaultedState = loadLocalStorage({
     timer: timerDefaults,
-    notifications: notificationsDefaults
+    notifications: notificationsDefaults,
 })
